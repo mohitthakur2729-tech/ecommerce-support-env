@@ -1,0 +1,12 @@
+name: ecommerce-support-env
+description: RL environment simulating ecommerce customer support tasks
+version: 1.0
+
+entry_point: env.environment:EcommerceSupportEnv
+
+tasks:
+  - name: easy
+  - name: medium
+  - name: hard
+
+author: Mohit Thakur
