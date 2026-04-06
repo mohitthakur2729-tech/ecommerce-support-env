@@ -1,33 +1,43 @@
+---
+title: Ecommerce Support RL Environment
+emoji: 🛒
+colorFrom: blue
+colorTo: green
+sdk: docker
+pinned: false
+---
+
 # Ecommerce Support RL Environment
 
-## Overview
-This project simulates a real-world ecommerce customer support system where an AI agent handles customer queries.
+RL environment simulating ecommerce customer support tasks.
 
-## Tasks
-- Easy: Respond to delivery queries
-- Medium: Handle damaged product refund
-- Hard: Handle multiple issues (missing + damaged items)
+## Environment Description
+Customer support agent that handles refunds, missing items, and complex queries.
 
 ## Action Space
-- respond_user
 - ask_order_id
 - verify_order
 - process_refund
+- respond_user
 - identify_multiple_issues
 - handle_missing_item
 
 ## Observation Space
-- query
-- history
-- progress
-- order_status
+- query: customer message
+- progress: list of completed actions
 
-## Reward System
-- Partial reward for correct steps
-- Final reward = 1.0
-- Penalty for wrong steps
+## Tasks
+- Easy: respond_user → score 1.0
+- Medium: ask_order_id → verify_order → process_refund → score 1.0
+- Hard: identify_multiple_issues → process_refund → handle_missing_item → score 1.0
 
-## Run Instructions
-
+## Setup
 ```bash
+pip install -r requirements.txt
 python inference.py
+```
+
+## Baseline Scores
+- Easy: 1.0
+- Medium: 1.0
+- Hard: 1.0
