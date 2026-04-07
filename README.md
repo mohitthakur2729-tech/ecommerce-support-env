@@ -7,6 +7,16 @@ sdk: docker
 pinned: false
 ---
 
+---
+title: Ecommerce Support RL Agent
+emoji: 🤖
+colorFrom: blue
+colorTo: green
+sdk: gradio
+sdk_version: "4.0.0"
+app_file: app.py
+---
+
 # Ecommerce Support RL Environment
 
 RL environment simulating ecommerce customer support tasks.
