@@ -102,4 +102,4 @@ with gr.Blocks() as demo:
      Built for real-world ecommerce automation
     """)
 
-demo.launch(css=custom_css)
+demo.launch(server_name="0.0.0.0", server_port=7860, css=custom_css)
