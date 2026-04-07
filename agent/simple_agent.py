@@ -12,7 +12,11 @@ def simple_agent(observation):
         return Action("respond_user", "Providing order status.")
 
     # 🔴 HARD: multiple issues
-    if "missing" in query and "damaged" in query:
+    if (
+    "multiple" in query
+    or "complex" in query
+    or ("missing" in query and "damaged" in query)
+):
         if "identify_multiple_issues" not in progress:
             return Action("identify_multiple_issues", "")
         elif "process_refund" not in progress:
