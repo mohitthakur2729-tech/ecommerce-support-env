@@ -4,6 +4,7 @@ import os
 from env.enviroment import EcommerceSupportEnv
 from env.models import Action
 from agent.llm_agent import llm_agent
+from agent.simple_agent import simple_agent
 from graders.easy_grader import grade as easy_grade
 from graders.medium_grader import grade as medium_grade
 from graders.hard_grader import grade as hard_grade
