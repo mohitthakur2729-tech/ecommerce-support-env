@@ -1,3 +1,4 @@
+import time
 from dotenv import load_dotenv
 load_dotenv()
 import os
@@ -100,6 +101,11 @@ def run_env(difficulty="medium"):
 # MAIN ENTRY
 # -------------------------------
 if __name__ == "__main__":
+    print("Running once...")
+
     run_env("easy")
     run_env("medium")
     run_env("hard")
+
+    print("Finished execution. Sleeping...")
+    time.sleep(3600)  
