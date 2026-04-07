@@ -6,15 +6,21 @@ from agent.simple_agent import simple_agent
 from dotenv import load_dotenv
 load_dotenv()
 
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+API_BASE_URL = os.getenv("API_BASE_URL")
+MODEL_NAME = os.getenv("MODEL_NAME")
+HF_TOKEN = os.getenv("HF_TOKEN")
+
 client = None
-if OPENAI_API_KEY:
-    client = OpenAI(api_key=OPENAI_API_KEY)
+if API_BASE_URL and MODEL_NAME and HF_TOKEN:
+    client = OpenAI(
+        base_url=API_BASE_URL,
+        api_key=HF_TOKEN
+    )
     
 def llm_agent(obs):
     if client is None:
-        print("No API key found, using fallback")
-        return simple_agent(obs)
+        print("No API config found, using fallback")
+    return simple_agent(obs)
 
     try:
         prompt = f"""You are an ecommerce support AI.
@@ -36,7 +42,7 @@ Available actions:
 Respond with ONLY the action name:"""
 
         response = client.chat.completions.create(
-            model="gpt-4o-mini",
+            model=MODEL_NAME,
             messages=[{"role": "user", "content": prompt}]
         )
 

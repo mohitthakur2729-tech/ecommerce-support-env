@@ -107,5 +107,4 @@ if __name__ == "__main__":
     run_env("medium")
     run_env("hard")
 
-    print("Finished execution. Sleeping...")
-    time.sleep(3600)  
+    print("Finished execution.") 
