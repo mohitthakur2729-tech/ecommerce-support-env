@@ -47,7 +47,7 @@ Respond with ONLY the action name:"""
         print("LLM failed, switching to fallback (no retry)")
         print(f"Error: {e}")
 
-        progress = getattr(obs, "progress", [])
+        progress = getattr(obs, "progress", []) or []
         difficulty = getattr(obs, "difficulty", "unknown")
 
         if difficulty == "easy":
