@@ -1,5 +1,9 @@
 .env
 __pycache__/
 *.pyc
+<<<<<<< HEAD
 .venv/
 .gradio/
+=======
+.venv/
+>>>>>>> df6166b369019dd1a0b3f66cc7386d0ca5a4b7b0
