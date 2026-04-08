@@ -16,3 +16,5 @@ tasks:
   - name: medium
   - name: hard
 author: Mohit Thakur
+
+base_url: http://localhost:7860
