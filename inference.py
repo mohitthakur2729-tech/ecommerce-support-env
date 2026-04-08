@@ -1,7 +1,6 @@
 import time
 from dotenv import load_dotenv
 load_dotenv()
-import os
 from env.enviroment import EcommerceSupportEnv
 from env.models import Action
 from agent.llm_agent import llm_agent
@@ -13,21 +12,24 @@ from graders.hard_grader import grade as hard_grade
 from openai import OpenAI
 import os
 
-client = None
-
-if os.getenv("OPENAI_API_KEY"):
-    client = OpenAI()
-
-API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:7860")
-MODEL_NAME = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
-HF_TOKEN = os.getenv("HF_TOKEN")
-LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
-
-# Required ENV variables (as per hackathon)
+# ✅ Required environment variables (OpenEnv compliant)
 API_BASE_URL = os.getenv("API_BASE_URL", "")
 MODEL_NAME = os.getenv("MODEL_NAME", "")
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
+HF_TOKEN = os.getenv("HF_TOKEN")
 
+
+# ✅ Safe OpenAI client initialization (NO CRASH on HF)
+client = None
+
+# Only initialize if OpenAI key exists (not HF token)
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+if OPENAI_API_KEY:
+    try:
+        client = OpenAI(api_key=OPENAI_API_KEY, base_url=API_BASE_URL)
+    except Exception:
+        client = None
+        
 # Keep simple_agent as backup
 def simple_agent(observation):
     query = observation.query.lower()
