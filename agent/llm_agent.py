@@ -6,7 +6,7 @@ from agent.simple_agent import simple_agent
 from dotenv import load_dotenv
 load_dotenv()
 
-# ✅ REQUIRED ENV VARIABLES (DO NOT CHANGE)
+# ✅ REQUIRED ENV VARIABLES (DO NOT CHANGE NAMES)
 API_BASE_URL = os.environ.get("API_BASE_URL")
 MODEL_NAME = os.environ.get("MODEL_NAME")
 
@@ -22,10 +22,9 @@ except Exception:
 
 
 def llm_agent(obs):
-    # ✅ fallback (safe)
+    # 🚨 FORCE LLM CALL (NO SILENT SKIP)
     if client is None:
-        print("No API config found, using fallback")
-        return simple_agent(obs)
+        raise Exception("Client not initialized — API call required")
 
     try:
         prompt = f"""
@@ -33,9 +32,8 @@ You are an ecommerce support AI.
 
 Current user query: {obs.query}
 Current progress: {obs.progress}
-Difficulty: {getattr(obs, 'difficulty', 'unknown')}
 
-Task: Select the logical NEXT action. Avoid repeats.
+Select the NEXT best action.
 
 Available actions:
 - respond_user
@@ -48,8 +46,11 @@ Available actions:
 Respond with ONLY the action name.
 """
 
+        # ✅ DEBUG PRINT (IMPORTANT FOR VALIDATION)
+        print("🚀 Calling LLM API...")
+
         response = client.chat.completions.create(
-            model=os.environ["MODEL_NAME"],
+            model=MODEL_NAME,
             messages=[
                 {"role": "user", "content": prompt}
             ]
@@ -60,5 +61,8 @@ Respond with ONLY the action name.
         return Action(action_name, "LLM decision")
 
     except Exception as e:
-        print("LLM failed:", e)
+        
+        print("❌ LLM failed:", str(e))
+
+        # fallback
         return simple_agent(obs)

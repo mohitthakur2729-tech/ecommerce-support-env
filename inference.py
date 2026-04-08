@@ -94,6 +94,7 @@ def run_env(difficulty="medium"):
     print("DONE ✅")
 
     print("[END]")
+    total_reward = min(total_reward, 1.0)
     
     # grading
     if difficulty == "easy":
@@ -103,11 +104,10 @@ def run_env(difficulty="medium"):
     else:
         score = hard_grade(result.info["progress"])
 
-    # 🚨 IMPORTANT FIX (ADD THIS JUST BELOW)
-    if score <= 0:
-        score = 0.1
-    elif score >= 1:
-        score = 0.9
+    print(f"[END]")
+    print(f"Total Reward: {total_reward}")
+    print(f"Score: {score}")
+
 
 # -------------------------------
 # MAIN ENTRY
