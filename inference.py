@@ -12,23 +12,20 @@ from graders.hard_grader import grade as hard_grade
 from openai import OpenAI
 import os
 
-# ✅ Required environment variables (OpenEnv compliant)
-API_BASE_URL = os.getenv("API_BASE_URL", "")
-MODEL_NAME = os.getenv("MODEL_NAME", "")
-HF_TOKEN = os.getenv("HF_TOKEN")
+# ✅ Required environment variables (DO NOT CHANGE NAMES)
+API_BASE_URL = os.environ.get("API_BASE_URL", "")
+MODEL_NAME = os.environ.get("MODEL_NAME", "")
 
 
-# ✅ Safe OpenAI client initialization (NO CRASH on HF)
+#  Correct OpenAI client 
 client = None
-
-# Only initialize if OpenAI key exists (not HF token)
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-
-if OPENAI_API_KEY:
-    try:
-        client = OpenAI(api_key=OPENAI_API_KEY, base_url=API_BASE_URL)
-    except Exception:
-        client = None
+try:
+    client = OpenAI(
+        api_key=os.environ["API_KEY"],          
+        base_url=os.environ["API_BASE_URL"]     
+    )
+except Exception:
+    client = None
         
 # Keep simple_agent as backup
 def simple_agent(observation):
