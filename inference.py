@@ -10,15 +10,18 @@ from graders.easy_grader import grade as easy_grade
 from graders.medium_grader import grade as medium_grade
 from graders.hard_grader import grade as hard_grade
 
-import os
 from openai import OpenAI
+import os
+
+client = None
+
+if os.getenv("OPENAI_API_KEY"):
+    client = OpenAI()
 
 API_BASE_URL = os.getenv("API_BASE_URL", "http://localhost:7860")
 MODEL_NAME = os.getenv("MODEL_NAME", "gpt-3.5-turbo")
 HF_TOKEN = os.getenv("HF_TOKEN")
 LOCAL_IMAGE_NAME = os.getenv("LOCAL_IMAGE_NAME")
-
-client = OpenAI()
 
 # Required ENV variables (as per hackathon)
 API_BASE_URL = os.getenv("API_BASE_URL", "")
