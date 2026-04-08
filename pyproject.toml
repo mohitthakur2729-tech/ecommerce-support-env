@@ -1,0 +1,10 @@
+[project]
+name = "ecommerce-support-env"
+version = "0.1.0"
+description = "Ecommerce Support RL Agent"
+dependencies = [
+    "openai",
+    "pydantic",
+    "python-dotenv",
+    "gradio"
+]
