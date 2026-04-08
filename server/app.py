@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from inference import run_env
+import uvicorn
 
 app = FastAPI()
 
@@ -18,3 +18,13 @@ def step():
 @app.get("/state")
 def state():
     return {"status": "state ok"}
+
+
+# ✅ REQUIRED FOR OPENENV
+def main():
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+# ✅ REQUIRED ENTRY POINT
+if __name__ == "__main__":
+    main()
