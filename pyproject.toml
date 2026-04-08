@@ -6,5 +6,9 @@ dependencies = [
     "openai",
     "pydantic",
     "python-dotenv",
-    "gradio"
+    "gradio",
+    "openenv>=0.2.0"
 ]
+
+[project.scripts]
+server = "server.app:app"
