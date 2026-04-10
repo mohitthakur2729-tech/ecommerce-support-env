@@ -12,7 +12,7 @@ from graders.hard_grader import grade as hard_grade
 from openai import OpenAI
 import os
 
-# ✅ Required environment variables (DO NOT CHANGE NAMES)
+#  Required environment variables (DO NOT CHANGE NAMES)
 API_BASE_URL = os.environ.get("API_BASE_URL", "")
 MODEL_NAME = os.environ.get("MODEL_NAME", "")
 
@@ -27,7 +27,6 @@ try:
 except Exception:
     client = None
         
-
 
 
 # -------------------------------
@@ -61,7 +60,7 @@ def run_env(difficulty="medium"):
         obs = result.observation
         done = result.done
 
-    print("DONE ✅")
+    print("DONE")
 
     print("[END]")
     total_reward = min(total_reward, 1.0)

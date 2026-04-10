@@ -1,13 +1,15 @@
+
+from fastapi import FastAPI
 import gradio as gr
 from inference import run_env
 
+app = FastAPI()
 def run_agent(difficulty):
     run_env(difficulty)
     return f" SUCCESS\n\n✔ {difficulty.upper()} task completed\n✔ Agent executed correctly\n✔ Check logs for step-by-step actions"
 
 def clear_output():
     return ""
-
 #  Custom CSS for premium look
 custom_css = """
 body {
@@ -101,5 +103,9 @@ with gr.Blocks() as demo:
 
      Built for real-world ecommerce automation
     """)
+     
+    @app.post("/reset")
+    def reset():
+        return {"status": "ok"}
 
-demo.launch(server_name="0.0.0.0", server_port=7860)
+app = gr.mount_gradio_app(app, demo, path="/")
