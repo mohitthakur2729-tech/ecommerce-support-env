@@ -14,4 +14,6 @@ def grade(progress):
     elif score <= 0.0:
         score = 0.01
 
+    score = max(0.01, min(0.99, score))
+    
     return score
