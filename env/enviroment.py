@@ -42,21 +42,24 @@ class EcommerceSupportEnv:
             if action.action_type not in self.state_data["progress"]:
                 self.state_data["progress"].append(action.action_type)
                 reward = 0.3  # step progress
-        
+
         # Completion check (all difficulties)
         if set(self.state_data["progress"]) == set(expected):
-            reward = 1.0
+            reward = 0.99  # ✅ FIXED: was 1.0
             self.done = True
         elif action.action_type in expected:
             reward = 0.3
         else:
-            reward = -0.1  # invalid/repeat penalty
+            reward = 0.01  # ✅ FIXED: was -0.1 (negative could cause issues too)
 
         # Safety limits
         if self.state_data["step_count"] >= 15:
             self.done = True
-            if reward != 1.0:
-                reward = -0.5  # failure
+            if reward != 0.99:
+                reward = 0.01  # ✅ FIXED: was -0.5
+
+        # Final clamp — guaranteed strict (0, 1)
+        reward = max(0.01, min(0.99, float(reward)))
 
         return StepResult(
             observation=self.state(),
