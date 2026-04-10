@@ -13,9 +13,9 @@ from graders.hard_grader import grade as hard_grade
 import os
 from openai import OpenAI
 
-# -------------------------------
+# ------------------------------
 # ENV VARIABLES
-# -------------------------------
+# ------------------------------
 API_BASE_URL = os.environ.get("API_BASE_URL", "")
 MODEL_NAME = os.environ.get("MODEL_NAME", "")
 
@@ -28,10 +28,9 @@ try:
 except:
     client = None
 
-
-# -------------------------------
+# ------------------------------
 # RUN ENV
-# -------------------------------
+# ------------------------------
 def run_env(difficulty="medium"):
     env = EcommerceSupportEnv(difficulty=difficulty)
     obs = env.reset()
@@ -61,20 +60,27 @@ def run_env(difficulty="medium"):
 
         obs = result.observation
         done = result.done
-        final_progress = result.info["progress"]
+
+        # ✅ FIX: Extract string action types from progress
+        raw_progress = result.info["progress"]
+        if isinstance(raw_progress, list):
+            final_progress = []
+            for p in raw_progress:
+                if isinstance(p, str):
+                    final_progress.append(p)
+                elif hasattr(p, 'action_type'):
+                    final_progress.append(p.action_type)
+                else:
+                    final_progress.append(str(p))
+        else:
+            final_progress = []
 
     print("DONE")
     print("[END]")
 
-    # 🔥 FIX 1: STRICT RANGE for total_reward
-    if total_reward >= 1.0:
-        total_reward = 0.99
-    elif total_reward <= 0.0:
-        total_reward = 0.01
-
-    # -------------------------------
+    # ------------------------------
     # GRADING
-    # -------------------------------
+    # ------------------------------
     if difficulty == "easy":
         score = easy_grade(final_progress)
     elif difficulty == "medium":
@@ -82,19 +88,16 @@ def run_env(difficulty="medium"):
     else:
         score = hard_grade(final_progress)
 
-    # 🔥 FIX 2: STRICT RANGE for score
-    if score >= 1.0:
-        score = 0.99
-    elif score <= 0.0:
-        score = 0.01
+    # ✅ FIX: Guarantee strict (0, 1) range — never 0.0 or 1.0
+    score = max(0.01, min(0.99, float(score)))
+    total_reward = max(0.01, min(0.99, float(total_reward)))
 
     print(f"Total Reward: {total_reward}")
     print(f"Score: {score}")
 
-
-# -------------------------------
+# ------------------------------
 # MAIN
-# -------------------------------
+# ------------------------------
 if __name__ == "__main__":
     print("Running once...\n")
 
