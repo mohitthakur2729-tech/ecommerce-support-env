@@ -25,6 +25,7 @@ try:
 except:
     client = None
 
+
 def run_env(difficulty="medium"):
     env = EcommerceSupportEnv(difficulty=difficulty)
     obs = env.reset()
@@ -55,7 +56,6 @@ def run_env(difficulty="medium"):
         obs = result.observation
         done = result.done
 
-        # Extract string action types safely
         raw_progress = result.info["progress"]
         final_progress = []
         for p in raw_progress:
@@ -66,9 +66,6 @@ def run_env(difficulty="medium"):
             else:
                 final_progress.append(str(p))
 
-    print("DONE")
-    print("[END]")
-
     # Grade
     if difficulty == "easy":
         score = easy_grade(final_progress)
@@ -77,12 +74,14 @@ def run_env(difficulty="medium"):
     else:
         score = hard_grade(final_progress)
 
-    # Nuclear clamp on both — absolute guarantee
-    score = max(0.01, min(0.99, float(score)))
-    total_reward = max(0.01, min(0.99, float(total_reward)))
+    # Nuclear clamp + round to avoid float precision issues like 0.8999999999
+    score = round(max(0.01, min(0.99, float(score))), 4)
+    total_reward = round(max(0.01, min(0.99, float(total_reward))), 4)
 
     print(f"Total Reward: {total_reward}")
     print(f"Score: {score}")
+    print("DONE")
+    print("[END]")
 
 
 if __name__ == "__main__":
