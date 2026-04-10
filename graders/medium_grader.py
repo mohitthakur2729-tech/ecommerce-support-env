@@ -6,14 +6,6 @@ def grade(progress):
     if "verify_order" in progress:
         score += 0.3
     if "process_refund" in progress:
-        score += 0.4
+        score += 0.3
 
-    # 🔥 STRICT RANGE (NO min(score,1.0))
-    if score >= 1.0:
-        score = 0.99
-    elif score <= 0.0:
-        score = 0.01
-        
-    score = max(0.01, min(0.99, score))
-    
-    return score
+    return max(0.01, min(0.99, float(score)))
