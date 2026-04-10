@@ -10,7 +10,6 @@ app = FastAPI()
 def reset():
     return {"status": "ok"}
 
-
 # -------------------
 # Agent functions
 # -------------------
@@ -41,7 +40,6 @@ with gr.Blocks() as demo:
 
     run_btn.click(fn=run_agent, inputs=difficulty, outputs=output)
     clear_btn.click(fn=clear_output, outputs=output)
-
 
 # 🔥 VERY IMPORTANT (LAST LINE)
 app = gr.mount_gradio_app(app, demo, path="/")
